@@ -1,0 +1,1365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- These sets of rules have been taken and try to modify from language_tools.segment.srx (updated version) and PTDR.srx (modified OmegaT rules) -->
+<!-- English abbreviation check with https://www.englisch-hilfen.de/en/words/abbreviations.htm -->
+<!-- German abbreviation check with https://www.thoughtco.com/popular-german-abbreviations-4085536 -->
+<!-- French abbreviation check with https://www.thoughtco.com/common-french-acronyms-and-abbreviations-4086490 -->
+
+<!-- There are a couple of rules that overwhelmed other rules and also affect the segmentation, search through using keyword "DOMINATE" to see more detail -->
+
+<srx version="2.0" xsi:schemaLocation="http://www.lisa.org/srx20 srx20.xsd" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="http://www.lisa.org/srx20">
+
+	<header segmentsubflows="yes" cascade="yes">
+		<formathandle type="start" include="no"/>
+		<formathandle type="end" include="yes"/>
+		<formathandle type="isolated" include="no"/>
+	</header>
+
+	<body>
+
+		<languagerules>
+
+			<!-- zh-ZH - Japanese -->
+			<!-- zh-ZH - Break rules,  contributed by Chanwit A.-->
+			<languagerule languagerulename="Japanese">
+
+				<!--  Additional rules -->
+
+				<rule break="no">
+					<beforebreak>(^|[ ])(\डॉ.)(?=[ ]|$)</beforebreak>
+					<afterbreak></afterbreak>
+				</rule>
+
+				<!-- Vol. and vols - add + to \s -->
+				<rule break="no">
+					<beforebreak>\s[V|v]ols?\.\s+</beforebreak>
+					<afterbreak>\d+|[IXV]+</afterbreak>
+				</rule>
+
+				<!-- case-insensitive - fig./figs. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\s(?i)(figs?)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- PT. match in the parenthesis -->
+				<rule break="no">
+					<beforebreak>\(\p{L}{2,}\.\s(?=\p{L}{2,})</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Chained-rules (Nat. Mater. 17) -->
+				<rule break="no">
+					<beforebreak>\s\(\p{L}+\.\s?</beforebreak>
+					<afterbreak>\p{L}+\.\s?</afterbreak>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\s\p{L}+\.\s?</beforebreak>
+					<afterbreak>\d+\)\s?</afterbreak>
+				</rule>
+
+				<!-- Months - 3. June -->
+				<rule break="no">
+					<beforebreak>\d+\.?\s</beforebreak>
+					<afterbreak>(Jan|Feb|Mar|Apr|Ju[nl]|Aug|Sept?|Oct|Nov|Dec)|([J|j]anuary|[F|f]ebruary|[M|m]arch|[A|]pril|[J|j]une|[J|j]uly|[A|a]ugust|[S|s]eptember|[O|o]ctober|[N|n]ovember|[D|d]ecember)</afterbreak>
+				</rule>
+
+				<!-- DOMINATE RULE: Pairat is good boy. said Kawae. -->
+				<!-- If you want to break it into new sentence - Comment it -->
+				<rule break="no">
+					<beforebreak>\.\s</beforebreak>
+					<afterbreak>said\s</afterbreak>
+				</rule>
+
+				<!-- DOMINATE RULE: Active.ai, Sonypay.dog, Conversation.AI -->
+				<!-- If you want to get full-stop + no-space sentence - rule break="yes" -->
+				<rule break="no">
+					<beforebreak>\s\p{Lu}\p{Ll}+\.</beforebreak>
+					<afterbreak>\p{L}{1,}</afterbreak>
+				</rule>
+
+				<!-- J.Crew - space with upper.lower -->
+				<rule break="no">
+					<beforebreak>\s[A-Z]\.</beforebreak>
+					<afterbreak>[A-Z]</afterbreak>
+				</rule>
+
+				<!-- i.Saku - space with lower.upper -->
+				<rule break="no">
+					<beforebreak>\s[a-z]\.</beforebreak>
+					<afterbreak>[A-Z]</afterbreak>
+				</rule>
+
+				<!-- Keep <A.II> format and cut it in default rule -->
+				<rule break="no">
+					<beforebreak>(?m)^\u003C[A-Z]\.</beforebreak>
+					<afterbreak>[IVX]+\u003E\s</afterbreak>
+				</rule>
+
+				<!-- B.o.B. -->
+				<rule break="no">
+					<beforebreak>\s(B\.o\.B\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- a.k.a. - also known as -->
+				<rule break="no">
+					<beforebreak>\s(a\.k\.a\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Chained-rules AM. A.M. PM. P.M. -->
+				<rule break="no">
+					<beforebreak>\s?(?i)[A|P]\.?</beforebreak>
+					<afterbreak>[M]\.?\s?</afterbreak>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\s[M]\.?\s?</beforebreak>
+					<afterbreak>\-\s?\d+</afterbreak>
+				</rule>
+
+				<!-- U.S. Provisional Patent Application [Ser.] -->
+				<rule break="no">
+					<beforebreak>\s(Ser)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- case insensitive - Figs. 1., -->
+				<rule break="no">
+					<beforebreak>(?i)\sfigs?\.\s\d+[\.\,]</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- B.o.T. - Board of Trade -->
+				<rule break="no">
+					<beforebreak>\sB\.o\.T\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- case-insensitive - Pte. - Private limited company -->
+				<rule break="no">
+					<beforebreak>(?i)\s(pte\s?\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- case-insensitive - Pvt. -->
+				<rule break="no">
+					<beforebreak>\s(?i)(pvt\s?\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Ir. - Masters Degree in Engineering -->
+				<rule break="no">
+					<beforebreak>\sIr.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Sq. -->
+				<rule break="no">
+					<beforebreak>\sSq\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- encl. - enclosed -->
+				<rule break="no">
+					<beforebreak>\sencl\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Ave. - add \p{Ll}+ to <afterbreak> -->
+				<rule break="no">
+					<beforebreak>\sAve\.\s</beforebreak>
+					<afterbreak>\p{Ll}+</afterbreak>
+				</rule>
+
+				<!-- Co.Ltd -->
+				<rule break="no">
+					<beforebreak>\bCo\.</beforebreak>
+					<afterbreak>Ltd\s?</afterbreak>
+				</rule>
+
+				<!-- B.Phil. (Bachelor of Philosophy) -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.\s?</beforebreak>
+					<afterbreak>Phil\.?</afterbreak>
+				</rule>
+
+				<!-- PTDR -->
+
+				<!-- U.K. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\sU\.K\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- etc. -->
+				<rule break="no">
+					<beforebreak>\setc\.</beforebreak>
+					<afterbreak>\s[a-z]</afterbreak>
+				</rule>
+
+				<!-- Dr. M. Ms. Mr. Mrs. Prof. wrapping - swap \s and add ? to <beforebreak> -->
+				<!-- Remove ? in Ms for M. , add \s in front of <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\s(Dr|Mss?|Mrs?|Prof)\.\s?</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- case-insensitive - e.g. - swap \s to <beforebreak>  -->
+				<rule break="no">
+					<beforebreak>\s(?i)(e\.g\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- case-insensitive - i.e. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\s(?i)(i\.e\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- resp. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\sresp\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- tel. with space - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\stel\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- St. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\sSt\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- A-Z. a-z with space - swap \s to <beforebreak> -->
+				<!-- add a-z and add ? to behind \s-->
+				<!-- <rule break="no">
+                    <beforebreak>\s[A-Za-z]\.\s?</beforebreak>
+                    <afterbreak></afterbreak>
+                </rule> -->
+
+				<!-- Time - AM. A.M. PM. P.M. -->
+				<rule break="no">
+					<beforebreak>\s[apAP]\.?[mM]\.</beforebreak>
+					<afterbreak>\s[a-z]</afterbreak>
+				</rule>
+
+				<!-- Mt. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\sMt\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Approx. - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\s[Aa]pprox\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Vs. VS. with space - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\s[vV][sS]?\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- p. with space - swap \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\sp\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- language_tools -->
+
+				<!-- U.S.A (no dot at end) -->
+				<rule break="no">
+					<beforebreak>\s[A-Z]\.[A-Z]\.</beforebreak>
+					<afterbreak>[A-Z]\b</afterbreak>
+				</rule>
+
+				<!-- No. 1 -->
+				<rule break="no">
+					<beforebreak>\b[nN]o\.\s</beforebreak>
+					<afterbreak>\p{N}</afterbreak>
+				</rule>
+
+				<!-- Common Abbreviations -->
+				<rule break="no">
+					<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|[Aa]cc|Pres|[Dd]ept|min|max|[Gg]ovt|lb|lbf|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
+					<afterbreak>[^\p{Lu}]|I</afterbreak>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
+					<afterbreak>\p{N}</afterbreak>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
+					<afterbreak>\(\p{N}\)</afterbreak>
+				</rule>
+
+				<!-- esp. or exp. -->
+				<rule break="no">
+					<beforebreak>\be[sx]p\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- "Etc." can end the sentence, so we check for the uppercase letter after it. -->
+				<rule break="no">
+					<beforebreak>\b[Ee]tc\.\s</beforebreak>
+					<afterbreak>[^\p{Lu}]</afterbreak>
+				</rule>
+
+				<!-- BTW (by the way) -->
+				<rule break="no">
+					<beforebreak>\b([Bb]tw|BTW)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Months - Jan to Dec wrapping - add \s? to <beforebreak> -->
+				<!-- Add \d and \p{Ll} -->
+				<rule break="no">
+					<beforebreak>\b(Jan|Feb|Mar|Apr|Ju[nl]|Aug|Sept?|Oct|Nov|Dec)\s?\.\s</beforebreak>
+					<afterbreak>\d|\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- FRITZ! Box wireless -->
+				<rule break="no">
+					<beforebreak>(?i)\sFRITZ!</beforebreak>
+					<afterbreak>(?i)Box</afterbreak>
+				</rule>
+
+				<!-- Volkswagen car - https://de.wikipedia.org/wiki/VW_ID.3 -->
+				<rule break="no">
+					<beforebreak>\sID\.</beforebreak>
+					<afterbreak>3|Buzz|Crozz</afterbreak>
+				</rule>
+
+				<!-- Ph.D. -->
+				<rule break="no">
+					<beforebreak>\bP[Hh]\.\s?</beforebreak>
+					<afterbreak>D\.?</afterbreak>
+				</rule>
+
+				<!-- Ph.D. (see rule PH_D) - add \s? -->
+				<rule break="no">
+					<beforebreak>\bP[Hh]\.?\s?[Dd]\.?\s?</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- "I have a B. Eng. degree" (see rule BACHELOR_ABBR) -->
+				<rule break="no">
+					<beforebreak>\b(P[hH][dD]|BSc|BEng|BComp|BArch|MSc|MEng|MComp)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- "I have a LL.B degree." (see rule PH_D) add \.? to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\bLL\.?\s?[BM]\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- B.Eng. (Bachelor of Engineering) -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.\s?</beforebreak>
+					<afterbreak>Eng\.?</afterbreak>
+				</rule>
+
+				<!-- LL.B. (Bachelor of Laws) -->
+				<rule break="no">
+					<beforebreak>\bLL\.\s?</beforebreak>
+					<afterbreak>[BM]\.?</afterbreak>
+				</rule>
+
+				<!-- B.Sc. (Bachelor of Science) -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.\s?</beforebreak>
+					<afterbreak>Sc\.?</afterbreak>
+				</rule>
+
+				<!-- B.Comp. (Bachelor of Computing) -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.\s?</beforebreak>
+					<afterbreak>Comp?\.?</afterbreak>
+				</rule>
+
+				<!-- B.Arch. (Bachelor of Architecture) -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.\s?</beforebreak>
+					<afterbreak>Arch\.?</afterbreak>
+				</rule>
+
+				<!-- Bachelor and Master of (Sc|Eng|Comp|Arch|Phil) - add Phil -->
+				<rule break="no">
+					<beforebreak>\b[BM]\.?\s?(Sc|Eng|Comp|Arch|Phil)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- et al. - and others - add \s to <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\bet\b\s\bal\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- English Abbreviations -->
+				<rule break="no">
+					<beforebreak>\b(a(?:bbrev|uth|bl|bsol|bstr|cc|ccus|dv|dvb|dvs|gst|lt|phet|pp|ppos|cc|dj|djs|rch|rt|ttrib)|A(?:bbrev|uth|bd|berd|berdeensh|bol|borig|bp|br|bridg|bridgem|bsol|bst|bstr|cad|cc|ccept|ccomm|ccompl|ccs|cct|ccts|chievem|dd|ddit|ddr|dm|dmin|dmir|dmon|dmonit|dv|dvancem|dvert|dvoc|dvt|dvts|erodynam|eronaut|ff|ffect|fr|gric|lch|lg|lleg|llit|lm|lph|mer|nal|nalyt|nat|nc|necd|ng|ngl|nim|nn|nniv|nnot|nsw|nt|nthrop|nthropol|ntiq|poc|pol|pp|ppl|pplic|rch|rchaeol|rchipel|rchit|rgt|rith|rithm|rrangem|rtic|rtific|rtill|ssemb|ssoc|ssyriol|str|strol|stron|stronaut|tt|ttrib|ustral|uth|utobiog|utobiogr|yrsh|rab)|B(?:acteriol|edford|edfordsh|elg|erks|erksh|erw|erwicksh|ibliogr|iochem|iog|iogr|iol|ks|ord|ot|raz|rit|ucks|uild|ull|ur)|b(?:ef|etw)|c(?:ent|ollect|olloq|ompar|ompl|onc|oncr|omp|onj|ons|onst|ontempt|orresp|pd|ontr)|C(?:ontradict|ontrib|ontrov|onv|onvent|onversat|onvoc|ornw|oron|orr|orresp|ounc|ourtsh|raniol|raniom|rim|rit|rt|rts|ryptogr|rystallogr|umb|umberld|umbld|ycl|ytol|ollect|onn|al|alc|alend|alif|alligr|amb|ambr|ampanol|anad|anterb|artogr|atal|atech|ath|ent|eram|ert|ertif|hamb|har|harac|has|hem|hesh|hr|hron|hronol|hrons|inematogr|irc|lass|lassif|limatol|lin|oll|olloq|om|omb|ombs|omm|ommandm|ommend|ommerc|ommiss|ommonw|ommunic|omp|ompan|ompar|ompend|ompl|ompos|onc|onch|oncl|onf|onfid|onfl|onfut|ongr|ongreg|ongress|onsc|onsecr|onsid|onsol|onstit|onstr|ontemp|ontempl|ontend|ontent|ontin)|d(?:at|em|ial|im|yslog|ef|eriv|erog)|D(?:au|eb|eclar|ed|ef|eliv|emonstr|ep|epred|epredat|erbysh|escr|evel|evonsh|ial|ict|iffic|irect|is|isc|iscipl|iscov|iscrim|iscuss|iss|istemp|istill|istrib|iv|ivers|oc|octr|omest|urh)|e(?:tym|tymol|uphem|xc|ast|llipt|mph|rron)|E(?:val|vang|ven|vid|vol|xalt|xam|xch|xec|xerc|xhib|xped|xper|xplan|xplic|xplor|xpos|tymol|ccl|ccles|col|con|din|dinb|duc|dw|gypt|gyptol|lectr|lectro-magn|lectro-physiol|lem|liz|lizab|mb|mbryol|ncycl|ng|ngin|nglishw|nq|nt|nthus|ntom|ntomol|nzymol|pil|pisc|pist|pit|quip|ss|ssent|stabl|thnol)|f(?:em|req|ut|am|amil)|F(?:ifesh|ootpr|orfarsh|ortif|ortn|ound|ragm|ratern|riendsh|und|urnit|ab|am|arew)|G(?:ard|astron|az|eo|eog|eogr|eol|eom|eomorphol|er|lac|lasg|los|loss|louc|loucestersh|osp|ram|ynaecol)|g(?:erund|en)|H(?:aematol|ampsh|andbk|ants|eb|en|er|erb|eref|ereford|erefordsh|ertfordsh|ierogl|ist|istol|om|orol|ort|osp|ouseh|ousek|usb|ydraul|ydrol)|hist|I(?:nd|ndustr|nfl|nnoc|norg|nq|nst|ntell|ntellect|nterc|nterl|nternat|nterpr|chth|cthyol|deol|dol|llustr|mag|mpr|naug|nclos|nd|nstr|tal|ntro|ntrod|nv|nvent|nvertebr|nvestig|nvestm|nvoc|rel|mmunol)|i(?:nt|nterj|nterrog|ntr|ntrans|mp|mperf|mpers|mpf|mprop|nstr|nd|ndef|ndic|ndir|nfin|nfl|ron|rreg|mit)|J(?:ahrb|ap|as|rnl|rnls|urisd|urisdict|urispr|ustif|ustific)|joc|K(?:ent|ingd|nowl|pr)|L(?:ab|anc|ancash|ancs|ang|angs|at|d|ds|ect|eechd|eg|eicest|eicester|eicestersh|eics|et|ett|ex|ibr|imnol|incolnsh|incs|ing|inn|it|ithogr|ithol|iturg|ond)|m(?:asc|ed|etaphor|idl|ispr|od)|M(?:ach|ag|agn|an|anagem|anch|anip|anuf|ath|eas|easurem|ech|ed|edit|em|erc|erch|etall|etallif|etallogr|etamorph|etaph|eteorol|eth|etrop|ex|ich|icrobiol|icrosc|il|ilit|in|ineral|isc|iscell|od|onum|orphol|SS|tg|unic|unif|unim|us|yst|yth|ythol)|n(?:once-wd|orth|om)|N(?:arr|arrat|at|aut|av|avig|eighb|erv|eurol|eurosurg|ewc|ewspr|onconf|orf|orthamptonsh|orthants|orthumb|orthumbld|orthumbr|orw|orweg|otts|ucl|umism|on-conf)|o(?:ccas|pp|rig|bj|bl|bs)|O(?:bs|bserv|bstet|bstetr|ccas|ccup|ccurr|ceanogr|ff|ffic|kla|nt|phthalm|phthalmol|ppress|pt|rac|rd|rg|rig|rkn|rnith|rnithol|rthogr|utl|xf|xfordsh|xon|bed|bj)|p(?:ass|erf|ers|ersonif|honet|hr|op|lur|oet|ref|rep|riv|rob|oss|pl|ple|ples|rec|red|redic|ron|ronunc|rop|rov|ropr|seudo-arch|seudo-dial|seudo-Sc|erh|res)|P(?:eriodontol|redict|rerog|sych|sychoanal|sychoanalyt|sychol|sychopathol|ubl|urg|erf|alaeobot|alaeogr|alaeont|alaeontol|araphr|arasitol|arl|arnass|ath|athol|eculat|enins|ers|ersec|erthsh|etrogr|etrol|harm|harmaceut|harmacol|hil|hilad|hilol|hilos|hoen|honol|hotog|hotogr|hrenol|hys|hysiogr|hysiol|ict|oet|ol|olit|olytechn|op|orc|ort|osth|ostm|ott|ract|ref|reh|rehist|resb|reserv|rim|rinc|rint|robab|robl|roc|rod|rol|rov|rovid|rovinc|rovis|ronunc|rop|ros)|Qld|q(?:uot|uots)|r(?:edupl|eg|epr|het|efash|efl|el)|R(?:adiol|eas|eb|ebell|ec|eclam|ecoll|edempt|ef|efl|efus|efut|eg|egic|egist|egr|el|elig|eminisc|emonstr|enfrewsh|eprod|ept|epub|es|esid|et|etrosp|evol|het|ich|om|oxb|oy|udim|uss)|s(?:ing|outh|pec|tr|ubj|ubjunct|ubord|ubseq|ubst|uff|uperl|yll)|S(?:ubj|uff|ubscr|ubscript|uppl|upplic|uppress|urg|urv|ymmetr|ymp|yst|pan|ask|at|ax|cand|ch|ci|cot|cotl|cript|culpt|eismol|el|elect|er|erm|ess|ettlem|ev|hakes|haks|heph|hetl|hropsh|oc|ociol|om|onn|pec|pecif|pecim|pectrosc|taff|tafford|taffordsh|taffs|tand|tat|tatist|tratigr|truct|tud)|t(?:echn|rans|ransf|ransl)|T(?:ransl|ransubstant|rav|reas|reat|reatm|rib|rig|rigonom|rop|roub|roubl|ypog|ypogr|axon|rans|echn|echnol|el|elecomm|elegr|eleph|eratol|erminol|errestr|est|extbk|heat|heatr|heol|heoret|hermonucl|hes|opogr|rag)|U(?:niv|rin)|u(?:nkn|nstr|lt|su)|U(?:nnat|noffic|tilit)|V(?:ac|aledict)|v(?:ar|arr|ars|bl|bs|ulg)|V(?:eg|enet|ertebr|et|ic|ict|ind|indic|irg|irol|oc|ocab|ol|oy|ulg)|W(?:estm|estmld|estmorld|estmrld|ill|ilts|iltsh|is|isd|kly|ks|onderf|orc|orcestersh|orcs|rit|arwicksh)|west|Y(?:earbk|ng|orks|orksh|rs)|Z(?:eitschr|oogeogr|ool))\.\b\s+</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- abbreviations -->
+				<rule break="no">
+					<beforebreak>\s+((Syd\.)|(Soc\.)|(Lex\.)|(Sc\.)|(Nat\.)|(Dict\.)|(subord\.)|(cl\.)|(Cinematogr\.)|(Geomorphol\.)|(Cent\.)|(Dict\.)|(Amer\.)|(Ind\.)|(Autobiogr\.)|(Nat\.)|(Hist\.)|(pple\.)|(adj\.)|(Anthropol\.)|(Pol\.)|(Econ\.)|(Astronaut\.)|(Electron\.)|(Bibliogr\.)|(Zoogeogr\.)|(Reminisc\.)|(Palaeont\.)|(Ichthyol\.)|(Communic\.)|(Ophthalm\.)|(Vet\.)|(Sci\.)|(pr\.)|(pple\.)|(Meteorol\.)|(Palaeogr\.)|(Aeronaut\.)|(U\.S\.S\.R\.)|(Embryol\.)|(Managem\.)|(Illustr\.)|(Petrogr\.)|(Anthrop\.)|(Contrib\.)|(Theoret\.)|(vbl\.)|(sb\.)|(collect\.)|(Psychol\.)|(Physiol\.)|(D\.O\.S\.T\.)|(corresp\.)|(Vertebr\.)|(Chronol\.)|(Mineral\.)|(Austral\.)|(pronunc\.)|(Technol\.)|(Biochem\.)|(Obstetr\.)|(Photogr\.)|(cogn\.)|(w\.)|(Immunol\.)|(Cinemat\.)|(Industr\.)|(catachr\.)|(Entomol\.)|(subseq\.)|(Telegr\.)|(Petrol\.)|(colloq\.)|(redupl\.)|(w\.midl\.)|(Astron\.)|(phonet\.)|(Explor\.)|(Philol\.)|(e\.midl\.)|(superl\.)|(ppl\.)|(a\.)|(R\.C\.Ch\.)|(Househ\.)|(Webster)|(Ornith\.)|(euphem\.)|(Struct\.)|(impers\.)|(Typogr\.)|(Histol\.)|(Astrol\.)|(transf\.)|(Applic\.)|(Philos\.)|(refash\.)|(Electr\.)|(Mataph\.)|(Teleph\.)|(attrib\.)|(Neurol\.)|(Numism\.)|(transl\.)|(Encycl\.)|(Compan\.)|(Introd\.)|(abbrev\.)|(N\.Amer\.)|(compar\.)|(Radiol\.)|(Sociol\.)|(Treatm\.)|(Theatr\.)|(Housek\.)|(Mythol\.)|(Ethnol\.)|(ellipt\.)|(Pharm\.)|(Psych\.)|(appos\.)|(Princ\.)|(Cotgr\.)|(Agric\.)|(deriv\.)|(S\.N\.D\.)|(Pract\.)|(irreg\.)|(techn\.)|(et[ ]al\.)|(Scand\.)|(aphet\.)|(Manuf\.)|(v\.str\.)|(Antiq\.)|(Diagn\.)|(Suppl\.)|(derog\.)|(Descr\.)|(Scotl\.)|(trans\.)|(Manch\.)|(OFris\.)|(S\.Afr\.)|(compl\.)|(Treat\.)|(mod\.L\.)|(Knowl\.)|(D\.A\.E\.)|(Geogr\.)|(Treas\.)|(Devel\.)|(Catal\.)|(U\.S\.A\.)|(Polit\.)|(Gloss\.)|(E\.D\.D\.)|(Compl\.)|(Theol\.)|(Conch\.)|(A\.K\.A\.)|(Stanf\.)|(Engin\.)|(concr\.)|(Typog\.)|(quots\.)|(Probl\.)|(Stand\.)|(Trans\.)|(Cambr\.)|(Exper\.)|(med\.L\.)|(N\.E\.D\.)|(Mssrs\.)|(erron\.)|(absol\.)|(const\.)|(Inorg\.)|(Congr\.)|(Found\.)|(contr\.)|(occas\.)|(Exerc\.)|(Chron\.)|(assoc\.)|(north\.)|(subst\.)|(Canad\.)|(Westm\.)|(Cryst\.)|(indef\.)|(Cytol\.)|(Taxon\.)|(Godef\.)|(c\.)|(BCE)|(cl\.)|(L\.)|(Abstr\.)|(Treas\.)|(Prov\.)|(Ecol\.)|(Path\.)|(Jrnl\.)|(cons\.)|(Myst\.)|(conj\.)|(pple\.)|(imit\.)|(Advt\.)|(Acct\.)|(syll\.)|(intr\.)|(Eccl\.)|(Astr\.)|(Pott\.)|(Surg\.)|(advb\.)|(pres\.)|(Edin\.)|(Turk\.)|(Diss\.)|(Dict\.)|(Phys\.)|(Comm\.)|(boul\.)|(Univ\.)|(pers\.)|(Spec\.)|(Syst\.)|(Appl\.)|(Corr\.)|(Conf\.)|(etym\.)|(Zool\.)|(priv\.)|(Trig\.)|(Porc\.)|(Cycl\.)|(perh\.)|(Bull\.)|(lang\.)|(spec\.)|(Anat\.)|(Tokh\.)|(Amer\.)|(Exam\.)|(repr\.)|(Clin\.)|(Goth\.)|(Fris\.)|(vulg\.)|(Pros\.)|(pron\.)|(Crit\.)|(neut\.)|(Celt\.)|(Chem\.)|(Trop\.)|(vars\.)|(Slav\.)|(midl\.)|(infl\.)|(Pers\.)|(freq\.)|(WGmc\.)|(Publ\.)|(pref\.)|(Hort\.)|(Naut\.)|(Narr\.)|(Rhet\.)|(Pict\.)|(Bulg\.)|(Finn\.)|(dial\.)|(prop\.)|(quot\.)|(Lith\.)|(subj\.)|(comb\.)|(Inst\.)|(Less\.)|(comp\.)|(Fund\.)|(Lect\.)|(Magn\.)|(Mstr\.)|(Proc\.)|(masc\.)|(Arch\.)|(orig\.)|(Mech\.)|(Govt\.)|(Russ\.)|(prob\.)|(refl\.)|(pa\.t\.)|(Geol\.)|(Herb\.)|(Nucl\.)|(Coll\.)|(Gram\.)|(Educ\.)|(Hist\.)|(Outl\.)|(poss\.)|(prep\.)|(Icel\.)|(Biol\.)|(Geom\.)|(prec\.)|(Prof\.)|(Trav\.)|(Aram\.)|(Hind\.)|(Elem\.)|(Stud\.)|(impf\.)|(hist\.)|(Gael\.)|(Ibid\.)|(Pref\.)|(Norw\.)|(pass\.)|(Brit\.)|(Cent\.)|(Arab\.)|(Conc\.)|(suff\.)|(Math\.)|(Econ\.)|(pred\.)|(pref\.)|(Mics\.)|(poet\.)|(unkn\.)|(c\.)|(CE)|(Comb\.)|(i\.e\.,)|(Prof\.)|(Atty\.)|(Pres\.)|(Msgr\.)|(Supt\.)|(Capt\.)|(Cmdr\.)|(str\.)|(Ess\.)|(Voy\.)|(Ann\.)|(exc\.)|(A\.D\.)|(nom\.)|(N\.T\.)|(Ave\.)|(Soc\.)|(D\.A\.)|(Mus\.)|(Wks\.)|(Mar\.)|(Rec\.)|(Adv\.)|(n\.q\.)|(viz\.)|(Syr\.)|(OSl\.)|(Ref\.)|(dem\.)|(dim\.)|(abl\.)|(obl\.)|(gen\.)|(Gaz\.)|(Rep\.)|(Oxf\.)|(q\.v\.)|(ind\.)|(Cat\.)|(A\.V\.)|(joc\.)|(mod\.)|(OFr\.)|(usu\.)|(obj\.)|(MHG\.)|(Mar\.)|(ult\.)|(B\.C\.)|(dat\.)|(opp\.)|(Obs\.)|(rel\.)|(Anc\.)|(Man\.)|(bef\.)|(def\.)|(s\.v\.)|(ave\.)|(Mag\.)|(v\.w\.)|(MLG\.)|(Ger\.)|(Alb\.)|(Vet\.)|(acc\.)|(Pol\.)|(N\.E\.)|(Sel\.)|(Opt\.)|(pop\.)|(Her\.)|(fem\.)|(Mrs\.)|(Jap\.)|(ONF\.)|(Chr\.)|(app\.)|(e\.g\.)|(int\.)|(Res\.)|(s\.w\.)|(esp\.)|(Ent\.)|(U\.S\.)|(Gmc\.)|(reg\.)|(B\.C\.)|(Rum\.)|(OHG\.)|(O\.T\.)|(Rev\.)|(Mem\.)|(Pol\.)|(inf\.)|(Lit\.)|(imp\.)|(Yrs\.)|(Col\.)|(Afr\.)|(MDu\.)|(NFr\.)|(Ins\.)|(gen\.)|(Arm\.)|(Add\.)|(adj\.)|(Rom\.)|(fig\.)|(Mil\.)|(D\.C\.)|(Dis\.)|(Nat\.)|(Org\.)|(A\.D\.)|(rev\.)|(OIr\.)|(Med\.)|(lit\.)|(adv\.)|(Eng\.)|(Reg\.)|(Ltd\.)|(obs\.)|(Skr\.)|(Apr\.)|(Jun\.)|(Cal\.)|(Deb\.)|(i\.e\.)|(phr\.)|(N\.Z\.)|(Min\.)|(Mal\.)|(Ser\.)|(cpd\.)|(N\.W\.)|(Sch\.)|(vol\.)|(Mrs\.)|(Rev\.)|(Hon\.)|(Gov\.)|(Ofc\.)|(Rep\.)|(Sen\.)|(Amb\.)|(Sec\.)|(Pvt\.)|(Cpl\.)|(Sgt\.)|(Adm\.)|(Maj\.)|(Col\.)|(Gen\.)|(Fig\.)|(Jan\.)|(Feb\.)|(May\.)|(Jul\.)|(Aug\.)|(Sep\.)|(Oct\.)|(Nov\.)|(Dec\.)|(deg\.)|(ad\.)|(Gr\.)|(Pg\.)|(It\.)|(Sp\.)|(Dr\.)|(wd\.)|(ed\.)|(OE\.)|(Gr\.)|(Bk\.)|(Sk\.)|(vb\.)|(WS\.)|(OF\.)|(Fr\.)|(Bd\.)|(id\.)|(sc\.)|(BC\.)|(BCE)|(Ch\.)|(tr\.)|(Cf\.)|(St\.)|(sp\.)|(LG\.)|(Da\.)|(IE\.)|(EE\.)|(Ap\.)|(NF\.)|(Dr\.)|(Gt\.)|(Du\.)|(fl\.)|(sb\.)|(Ir\.)|(AD\.)|(Sw\.)|(Sp\.)|(cf\.)|(Co\.)|(pr\.)|(Mr\.)|(AF\.)|(Pr\.)|(ON\.)|(OS\.)|(pf\.)|(Ms\.)|(Mr\.)|(Dr\.)|(Fr\.)|(St\.)|(Lt\.)|(Sr\.)|(Br\.)|(F\.)|(n\.)|(m\.)|(E\.)|(f\.)|(l\.)|(p\.)|(W\.)|(S\.)|(N\.)|(G\.)|(L\.)|(R\.)|(Q\.)|(v\.)|(CE)|(c\.))\s*</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- abbreviations -->
+				<rule break="no">
+					<beforebreak>\s+((verl\.)|(deelw\.)|(t\.h\.o\.d\.n\.)|(w\.v\.t\.t\.k\.)|(z\.b\.b\.h\.h\.)|(aanw\.vnw\.)|(O\.V\.Tk\.T\.)|(i\.z\.g\.st\.)|(prof\.)|(em\.)|(o\.t\.t\.t\.)|(o\.v\.t\.t\.)|(onfrank\.)|(v\.t\.t\.t\.)|(v\.v\.t\.t\.)|(vorst\.d\.)|(vrijgrs\.)|(z\.g\.a\.n\.)|(a\.d\.h\.v\.)|(i\.h\.k\.v\.)|(n\.o\.t\.k\.)|(o\.d\.a\.m\.)|(ov\.cmpl\.)|(p\.p\.p\.d\.)|(S\.P\.Q\.R\.)|(s\.s\.t\.t\.)|(t\.e\.a\.b\.)|(t\.t\.v\.v\.)|(v\.l\.n\.r\.)|(z\.g\.a\.n\.)|(Z\.M\.L\.K\.)|(Z\.M\.O\.K\.)|(z\.v\.v\.a\.)|(Hr\.)|(Ms\.)|(O\.Tk\.T\.)|(v\.)|(Chr\.)|(V\.Tk\.T\.)|(versch\.)|(i\.g\.st\.)|(intern\.)|(a\.h\.w\.)|(a\.j\.b\.)|(a\.u\.b\.)|(d\.a\.v\.)|(d\.m\.v\.)|(d\.w\.z\.)|(e\.e\.a\.)|(ghert\.)|(Hr\.Ms\.)|(i\.p\.v\.)|(i\.t\.t\.)|(i\.v\.m\.)|(m\.b\.t\.)|(n\.Chr\.)|(n\.n\.b\.)|(o\.i\.d\.)|(o\.t\.t\.)|(o\.v\.t\.)|(on\.ww\.)|(ov\.ww\.)|(t\.g\.v\.)|(taalk\.)|(uitdr\.)|(v\.Chr\.)|(V\.T\.T\.)|(V\.V\.T\.)|(verdr\.)|(voegw\.)|(voorz\.)|(wrsch\.)|(z\.s\.m\.)|(a\.d\.o\.)|(a\.g\.v\.)|(a\.h\.w\.)|(a\.i\.o\.)|(b\.g\.g\.)|(b\.v\.d\.)|(b\.z\.a\.)|(d\.m\.v\.)|(d\.w\.z\.)|(e\.e\.a\.)|(e\.v\.a\.)|(g\.g\.d\.)|(H\.K\.H\.)|(i\.a\.v\.)|(i\.b\.d\.)|(i\.c\.m\.)|(i\.f\.v\.)|(i\.g\.v\.)|(i\.h\.a\.)|(i\.h\.b\.)|(i\.i\.g\.)|(i\.o\.v\.)|(i\.p\.v\.)|(i\.s\.m\.)|(i\.t\.t\.)|(i\.v\.m\.)|(k\.g\.v\.)|(K\.v\.K\.)|(m\.a\.w\.)|(m\.b\.t\.)|(m\.b\.v\.)|(m\.h\.g\.)|(m\.i\.v\.)|(m\.m\.v\.)|(m\.u\.v\.)|(m\.v\.g\.)|(n\.a\.v\.)|(n\.Chr\.)|(n\.n\.b\.)|(N\.N\.O\.)|(N\.N\.W\.)|(n\.t\.b\.)|(n\.t\.o\.)|(n\.v\.t\.)|(o\.b\.s\.)|(o\.b\.v\.)|(o\.d\.t\.)|(o\.d\.z\.)|(o\.e\.r\.)|(o\.g\.v\.)|(o\.i\.d\.)|(o\.i\.v\.)|(o\.l\.s\.)|(o\.l\.v\.)|(O\.L\.V\.)|(O\.N\.O\.)|(o\.o\.v\.)|(o\.t\.t\.)|(o\.v\.t\.)|(o\.v\.v\.)|(O\.Z\.O\.)|(p\.o\.b\.)|(pseud\.)|(P\.T\.T\.)|(q\.e\.d\.)|(R\.I\.P\.)|(r\.s\.g\.)|(s\.c\.j\.)|(s\.v\.p\.)|(t\.a\.v\.)|(t\.b\.v\.)|(t\.g\.t\.)|(t\.g\.v\.)|(t\.h\.t\.)|(t\.h\.v\.)|(T\.I\.R\.)|(t\.k\.g\.)|(t\.k\.n\.)|(t\.n\.v\.)|(t\.o\.v\.)|(t\.t\.v\.)|(t\.t\.z\.)|(t\.w\.v\.)|(t\.z\.t\.)|(t\.z\.v\.)|(u\.v\.d\.)|(v\.v\.t\.)|(V\.V\.V\.)|(v\.w\.b\.)|(Z\.D\.H\.)|(z\.h\.s\.)|(Z\.H\.Z\.)|(Z\.K\.H\.)|(Z\.K\.M\.)|(z\.o\.z\.)|(z\.s\.m\.)|(z\.v\.k\.)|(z\.v\.t\.)|(b\.)|(v\.)|(betr\.)|(bijv\.)|(form\.)|(grvm\.)|(hert\.)|(kvdm\.)|(kymr\.)|(lgrs\.)|(lidw\.)|(mgrs\.)|(ofra\.)|(orth\.)|(prof\.)|(prot\.)|(prov\.)|(resp\.)|(toep\.)|(verg\.)|(wsch\.)|(betr\.)|(bibl\.)|(bijl\.)|(bijv\.)|(bijz\.)|(excl\.)|(Gebr\.)|(incl\.)|(jkvr\.)|(mevr\.)|(N\.Br\.)|(penn\.)|(prof\.)|(prov\.)|(p\.st\.)|(resp\.)|(Secr\.)|(spec\.)|(synd\.)|(telw\.)|(Z\.Em\.)|(a\.m\.)|(a\.s\.)|(afl\.)|(b\.v\.)|(bet\.)|(c\.q\.)|(c\.s\.)|(drs\.)|(e\.d\.)|(eil\.)|(enz\.)|(evt\.)|(fra\.)|(grs\.)|(H\.M\.)|(iem\.)|(inf\.)|(ing\.)|(inz\.)|(kkr\.)|(kzr\.)|(Lat\.)|(m\.n\.)|(mgr\.)|(mhd\.)|(mnd\.)|(muz\.)|(nhd\.)|(nnd\.)|(o\.a\.)|(o\.c\.)|(o\.m\.)|(ohd\.)|(onz\.)|(r\.k\.)|(rep\.)|(Rom\.)|(t\.w\.)|(vgl\.)|(vnl\.)|(vnw\.)|(z\.g\.)|(zgn\.)|(znw\.)|(adj\.)|(afb\.)|(afd\.)|(afk\.)|(afz\.)|(a\.i\.)|(alg\.)|(a\.m\.)|(a\.s\.)|(b\.a\.)|(bnw\.)|(c\.a\.)|(c\.q\.)|(c\.s\.)|(d\.d\.)|(dhr\.)|(d\.i\.)|(dir\.)|(drs\.)|(e\.a\.)|(e\.c\.)|(e\.d\.)|(e\.g\.)|(enz\.)|(e\.o\.)|(e\.v\.)|(evt\.)|(fig\.)|(geb\.)|(geh\.)|(gem\.)|(get\.)|(gez\.)|(H\.R\.)|(Hzn\.)|(i\.c\.)|(i\.e\.)|(ing\.)|(jhr\.)|(max\.)|(mej\.)|(Mgr\.)|(m\.i\.)|(min\.)|(mld\.)|(mln\.)|(m\.n\.)|(N\.B\.)|(n\.C\.)|(Ndl\.)|(Ned\.)|(n\.m\.)|(N\.O\.)|(nro\.)|(nrs\.)|(N\.T\.)|(N\.W\.)|(o\.a\.)|(obl\.)|(o\.c\.)|(o\.g\.)|(o\.i\.)|(O\.L\.)|(o\.m\.)|(ong\.)|(O\.O\.)|(opm\.)|(opp\.)|(org\.)|(O\.T\.)|(o\.v\.)|(par\.)|(p\.c\.)|(p\.k\.)|(plv\.)|(p\.m\.)|(P\.O\.)|(p\.o\.)|(p\.p\.)|(q\.e\.)|(q\.n\.)|(q\.p\.)|(q\.q\.)|(q\.s\.)|(q\.t\.)|(q\.v\.)|(r\.a\.)|(r\.d\.)|(R\.D\.)|(red\.)|(ref\.)|(s\.c\.)|(s\.j\.)|(s\.l\.)|(soc\.)|(sp\.a)|(s\.s\.)|(s\.t\.)|(tab\.)|(t\.v\.)|(t\.w\.)|(t\.z\.)|(vgl\.)|(vnl\.)|(V\.S\.)|(v\.v\.)|(w\.g\.)|(W\.L\.)|(wnd\.)|(w\.o\.)|(z\.a\.)|(zat\.)|(Z\.B\.)|(Z\.D\.)|(Z\.E\.)|(z\.g\.)|(zgn\.)|(Z\.H\.)|(z\.i\.)|(z\.j\.)|(Z\.M\.)|(znw\.)|(z\.o\.)|(z\.v\.)|(z\.w\.)|(ca\.)|(ft\.)|(Gr\.)|(Hr\.)|(ir\.)|(kg\.)|(me\.)|(mr\.)|(mv\.)|(nl\.)|(nr\.)|(oe\.)|(os\.)|(tw\.)|(vw\.)|(vz\.)|(ws\.)|(zg\.)|(bnp)|(bv\.)|(bw\.)|(ca\.)|(cf\.)|(dr\.)|(ds\.)|(ed\.)|(fl\.)|(fr\.)|(Hr\.)|(id\.)|(ir\.)|(jl\.)|(jr\.)|(Jz\.)|(lt\.)|(mi\.)|(mr\.)|(mv\.)|(nl\.)|(Nl\.)|(nr\.)|(ob\.)|(sp\.)|(St\.)|(tk\.)|(Vz\.)|(wo\.)|(ww\.)|(zg\.)|(zn\.)|(Zr\.)|(v\.)|(o\.)|(O\.)|(v\.)|(z\.)|(Eur\.)|(J\.)|(Biol\.)|(Chem\.)|(W\.)|(F\.)|(Annu\.)|(Rev\.)|(Biochem\.)|(Rev\.)|(Biochem\.)|(Bioorg\.)|(Bioorg\.)|(Chem\.)|(Biol\.)|(Histochem\.)|(Suppl\.)|(Suppl\.)|(Vet\.)|(Res\.)|(Mol\.)|(Cell\.)|(Biol\.)|(Genet\.)|(Cytogenet\.)|(York\.)|(Immunol\.)|(Meth\.)|(Meth\.)|(J)|(Respir\.)|(Mol\.)|(Pharmaceut\.)|(Natl\.)|(Acad\.)|(Sci\.)|(Proc\.)|(Genet\.)|(Nucl\.)|(S\.J\.)|(A\.W\.)|(Int\.)|(Zeol\.)|(Ann\.)|(Hum\.)|(J\.)|(Bacteriol\.)|(Curr\.)|(Genet\.)|(J\.)|(Biol\.)|(U\.S\.)|(Pat\.)|(Pat\.)|(μm\.))\s+</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\b(Atty|Sg?t|[SG]en|Ft|Gov|Hon|Prof|Mr?s|Mt|[DMJS]r|Col|Maj|L(ieu)?t|Brig|Capt?|Cmdr|Cmnd|Revd?|Rep)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<rule break="no">
+					<beforebreak>\b(Atty|Sg?t|[SG]en|Gov|Hon|Prof|Mr?s|[DMJS]r|Col|Maj|L(ieu)?t|Brig|Capt?|Cmdr|Cmnd|Revd?|Rep)\.\s[A-Z]\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Drs. Messrs. Mmes. -->
+				<rule break="no">
+					<beforebreak>\b(Drs|Messrs|Mmes)\.\s</beforebreak>
+					<afterbreak>(and\s)|\p{Lu}\p{Ll}+</afterbreak>
+				</rule>
+
+				<!-- cf. -->
+				<rule break="no">
+					<beforebreak>\bcf\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- I(nc|NC). -->
+				<rule break="no">
+					<beforebreak>\bI(nc|NC)\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Corp. - add \, for ., and \p{Ll}+ to <afterbreak> -->
+				<rule break="no">
+					<beforebreak>\bCorp\.\,?\s</beforebreak>
+					<afterbreak>\p{Ll}+</afterbreak>
+				</rule>
+
+				<!-- Bros. -->
+				<rule break="no">
+					<beforebreak>\bBros\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Dist. -->
+				<rule break="no">
+					<beforebreak>\bDist\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Co. - add \s?,\, for ., -->
+				<rule break="no">
+					<beforebreak>\bCo\.\s?\,?\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- o'clock -->
+				<rule break="no">
+					<beforebreak>\bo'clock\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- fo'c'sle - Forecastle -->
+				<rule break="no">
+					<beforebreak>\bfo'c'sle\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Ltd. - add [^\p{Lu}] to <afterbreak> -->
+				<rule break="no">
+					<beforebreak>\bLtd\.\s</beforebreak>
+					<afterbreak>[^\p{Lu}]</afterbreak>
+				</rule>
+
+				<!-- […] with space - change space to \s -->
+				<rule break="no">
+					<beforebreak>[\[\(]*…[\]\)]*\s</beforebreak>
+					<afterbreak>\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- !/?>) with space - change space to \s -->
+				<rule break="no">
+					<beforebreak>\p{Ps}[!?]+\p{Pe}\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- ./!/?/…} with space - change space to \s -->
+				<rule break="no">
+					<beforebreak>[\.!?…]+\p{Pe}\s</beforebreak>
+					<afterbreak>\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- "lowercase -->
+				<rule break="no">
+					<beforebreak>["”'’]\s*</beforebreak>
+					<afterbreak>\s*\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- '?' with space -->
+				<rule break="no">
+					<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- A. A. -->
+				<rule break="no">
+					<beforebreak>\b\p{L}\.\s</beforebreak>
+					<afterbreak>\p{L}\.\s</afterbreak>
+				</rule>
+
+				<!-- A.A. - add \s? to <afterbreak> -->
+				<rule break="no">
+					<beforebreak>\b\p{L}\.</beforebreak>
+					<afterbreak>\p{L}\.</afterbreak>
+				</rule>
+
+				<!-- Jones v. Smith -->
+				<rule break="no">
+					<beforebreak>\p{Lu}\p{L}+\sv\.\s</beforebreak>
+					<afterbreak>\p{Lu}\p{L}+</afterbreak>
+				</rule>
+
+				<!-- .s. l -->
+				<rule break="no">
+					<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+					<afterbreak>[\p{N}\p{Ll}]</afterbreak>
+				</rule>
+
+				<!-- (...) - change space to \s and \.\.\. to \.{2,3} -->
+				<rule break="no">
+					<beforebreak>[\[\(]*\.{2,3}[\]\)]*\s</beforebreak>
+					<afterbreak>[^\p{Lu}]</afterbreak>
+				</rule>
+
+				<!-- U. U. with space -->
+				<rule break="no">
+					<beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- U.U. with space -->
+				<rule break="no">
+					<beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- DOMINATE RULE: This rule make sentence that end with A. C. R. failed to cut -->
+				<!-- If in use, will lose some name content - P. Kawaesius -->
+				<!-- e U. -->
+				<rule break="no">
+					<beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- :Blvd. , Ave. , Mts. -->
+				<rule break="no">
+					<beforebreak>\b(:?Blvd|Ave|Mts?|wt)\.\s</beforebreak>
+					<afterbreak>\p{Ll}+</afterbreak>
+				</rule>
+
+				<!-- :Kan. , Ill. , Mass. , Miss. -->
+				<rule break="no">
+					<beforebreak>\b(?:Kan|Ill|M[ai]ss)\.\s</beforebreak>
+					<afterbreak>\p{Ll}+</afterbreak>
+				</rule>
+
+				<!-- (cc. -->
+				<rule break="no">
+					<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				
+
+				<!-- 81Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[A-Z][.]</beforebreak>
+					<afterbreak>[A-Z][.][ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 80Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[A-Z][.]</beforebreak>
+					<afterbreak>[A-Z][.][ ]{0,2}[\W]</afterbreak>
+				</rule>
+
+				<!-- 79Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[a-z][ ]{0,2}[)]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 78Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\s]{0,2}[i][.][e][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 77Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\s]{0,2}[i][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 76Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[eE][.][uU][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 75Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[eE][.]</beforebreak>
+					<afterbreak>[uU][.]</afterbreak>
+				</rule>
+
+				<!-- 74Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[eE][.][g][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 73Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[eE][.]</beforebreak>
+					<afterbreak>[g][.]</afterbreak>
+				</rule>
+
+				<!-- 72Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[B][.][E][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 71Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[B][.]</beforebreak>
+					<afterbreak>[E][.]</afterbreak>
+				</rule>
+
+				<!-- 70Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d][.]</beforebreak>
+					<afterbreak>[\d][)]</afterbreak>
+				</rule>
+
+				<!-- 69Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[B][.]</beforebreak>
+					<afterbreak>[\d][.]</afterbreak>
+				</rule>
+
+				<!-- 68Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][dD][eE][cC][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 67Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][nN][oO][vV][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 66Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][oO][cC][tT][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 65Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][sS][eE][pP][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 64Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][aA][uU][gG][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 63Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][jJ][uU][lL][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 62Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][jJ][uU][nN][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 61Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][mM][aA][yY][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 60Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][aA][pP][rR][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 59Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][mM][aA][rR][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 58Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][fF][eE][bB][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 57Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][jJ][aA][nN][.]</beforebreak>
+					<afterbreak>[ ]{0,2}[0-9a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 56Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d][.]</beforebreak>
+					<afterbreak>[\d]{1,}[bB][iI][lL][lL][iI][oO][nN]</afterbreak>
+				</rule>
+
+				<!-- 55Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\S][)][ ]{0,2}[,]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S][,]</afterbreak>
+				</rule>
+
+				<!-- 54Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d][.]</beforebreak>
+					<afterbreak>[\d]{1,}[(]</afterbreak>
+				</rule>
+
+				<!-- 53Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\S][)][ ]{0,2}[,]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S][,]</afterbreak>
+				</rule>
+
+				<!-- 52Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,}[ ]{0,2}[)]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S][,]</afterbreak>
+				</rule>
+
+				<!-- 51Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[I][ ]{0,2}[.][ ]{0,2}</beforebreak>
+					<afterbreak>[e][ ]{0,2}[.]</afterbreak>
+				</rule>
+
+				<!-- 50Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,}[\]][ ]{0,2}</beforebreak>
+					<afterbreak>[\[][ ]{0,2}[\d]{1,}[.]</afterbreak>
+				</rule>
+
+				<!-- 49Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[)][ ]{0,2}[\]]</beforebreak>
+					<afterbreak>[)][ ]{0,2}[\]]</afterbreak>
+				</rule>
+
+				<!-- 48Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,}[\]][,]</beforebreak>
+					<afterbreak>[ ]{0,3}[\[]</afterbreak>
+				</rule>
+
+				<!-- 47Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\[][ ]{0,2}[\d]{1,}[.]</beforebreak>
+					<afterbreak>[\d]{1,}[\]]</afterbreak>
+				</rule>
+
+				<!-- 46Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d][ ]{0,2}</beforebreak>
+					<afterbreak>[aA][mM][.]</afterbreak>
+				</rule>
+
+				<!-- 45Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d][ ]{0,2}</beforebreak>
+					<afterbreak>[aA][.][mM][.]</afterbreak>
+				</rule>
+
+				<!-- 44Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,2}[\d]{1,}[.]</beforebreak>
+					<afterbreak>[\d][ ]{0,2}[(]</afterbreak>
+				</rule>
+
+				<!-- 43Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[)]</beforebreak>
+					<afterbreak>[ ]{0,2}[\S][,]</afterbreak>
+				</rule>
+
+				<!-- 42Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[.]</beforebreak>
+					<afterbreak>[\d]{1,3}</afterbreak>
+				</rule>
+
+				<!-- 41Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[sS][tT][rR][eE][eE][tT][ ]{0,1}[,]</beforebreak>
+					<afterbreak>[ ]{0,1}[A-Z]{1}[a-z]{1,}</afterbreak>
+				</rule>
+
+				<!-- 40Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,2}[\S][,]</beforebreak>
+					<afterbreak>[ ]{0,3}[A-Z]{1}[a-z]{1,}[ ]{0,3}[,]</afterbreak>
+				</rule>
+
+				<!-- 39Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,2}[\d]{1,}[ ]{0,2}[\/]</beforebreak>
+					<afterbreak>[ ]{0,2}[A-Z]{1}[\S]</afterbreak>
+				</rule>
+
+				<!-- 38Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,}[ ]{0,2}</beforebreak>
+					<afterbreak>[(][ ]{0,2}[a-zA-Z]</afterbreak>
+				</rule>
+
+				<!-- 37Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\d]</beforebreak>
+					<afterbreak>[,][\d]{3}</afterbreak>
+				</rule>
+
+				<!-- 36Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\d][ ]{0,3}[,]</beforebreak>
+					<afterbreak>[ ]{0,3}[\d][ ]{0,3}[,]</afterbreak>
+				</rule>
+
+				<!-- 35Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[A-Z]{1}[a-z]{1,}[ ]{0,3}[,]</beforebreak>
+					<afterbreak>[ ]{0,3}[aA][sS][ ]{1,}</afterbreak>
+				</rule>
+
+				<!-- 34Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[nN][oO][ ]{0,3}[.]</beforebreak>
+					<afterbreak>[ ]{0,3}[\d]{1,}</afterbreak>
+				</rule>
+
+				<!-- 33Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\d]{1,4}[ ]{0,3}[,]</beforebreak>
+					<afterbreak>[ ]{0,3}[bB][uU][iI][lL][dD][iI][nN][gG]{1,4}[ ]{0,3}</afterbreak>
+				</rule>
+
+				<!-- 32Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\d]{1,3}[ ]{0,3}[-]</beforebreak>
+					<afterbreak>[ ]{0,3}[\d]{1,3}[ ]{0,3}[-]</afterbreak>
+				</rule>
+
+				<!-- 31Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\[][ ]{0,3}[eE][\-][mM][aA][iI][lL][ ]{0,2}[\:]</beforebreak>
+					<afterbreak>[ ]{0,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 30Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\[][ ]{0,3}[\d]{1,3}[ ]{0,3}[\/]</beforebreak>
+					<afterbreak>[ ]{0,3}[\d]{1,3}[ ]{0,3}[\]][ ]{0,3}[\s\S]{0,3}</afterbreak>
+				</rule>
+
+				<!-- 29Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[ ]{0,3}[\[][ ]{0,3}[\d]{1,9}[\]]</beforebreak>
+					<afterbreak>[ ]{0,3}[sS][Qq][Mm][\,][ ]{0,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 28Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][\S]{1,3}[)][ ]{0,3}[-]</beforebreak>
+					<afterbreak>[ ]{0,3}[\[][ ]{0,3}[\d]{1,9}[\]]</afterbreak>
+				</rule>
+
+				<!-- 27Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\S][.][\S][.][ ]{0,3}</beforebreak>
+					<afterbreak>[(][\S]{1,3}[)][ ]{0,3}[-]</afterbreak>
+				</rule>
+
+				<!-- 26Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\S][ ]{0,3}[)][ ]{0,3}[(][ ]{0,3}[\S]{1,3}[ ]{0,3}[)]</beforebreak>
+					<afterbreak>[\s\S]</afterbreak>
+				</rule>
+
+				<!-- 25Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\S]{1}[ ]{0,3}[)]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 24Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\S][ ]{0,3}[\S]</beforebreak>
+					<afterbreak>[\S][)][\s\S][ ]{0,3}</afterbreak>
+				</rule>
+
+				<!-- 23Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\d]{1,9}[ ]{0,3}[p]{1}[c]{1}[s]{1}[)]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 22Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\d]{1,9}[ ]{0,3}[p]{1}[c]{1}[s]{1}[)]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 21Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\d]{1,9}[ ]{0,3}[p]{1}[c]{1}[s]{1}[)]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 20Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][ ]{0,3}[\d]{1,9}[ ]{0,3}[p]{1}[c]{1}[s]{1}[)]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 19Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[♦•◘○◙◄►➢§–]{1}</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 18Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[♦•◘○◙◄►➢§–]{1}</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 17Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[.][\d]{1,3}[.]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 16Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[.][\d]{1,3}[.]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 15Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\[][\d]{1,3}[\]]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 14Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\[][\d]{1,3}[\]]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 13Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[]]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 12Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[]]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 11Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][\d]{1,3}[.][\d]{1,3}[)]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 10Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][\d]{1,3}[.][\d]{1,3}[)]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 9Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][\d]{1,3}[)]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 8Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[(][\d]{1,3}[)]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 7Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.][\d]{1,3}[\.][\d]{1,3}</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 6Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.][\d]{1,3}[\.][\d]{1,3}</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 5Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.][\d]{1,3}</beforebreak>
+					<afterbreak>[\d]{1,3}[ ]{0,2}[\S]</afterbreak>
+				</rule>
+
+				<!-- 4Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.]</beforebreak>
+					<afterbreak>[\d]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 3 Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.]</beforebreak>
+					<afterbreak>[\s]{1,3}[\S]</afterbreak>
+				</rule>
+
+				<!-- 2 Exception rule for Japanese. -->
+				<rule break="no">
+					<beforebreak>[\d]{1,3}[\.]</beforebreak>
+					<afterbreak>[\S]</afterbreak>
+				</rule>
+
+				<!-- 1 Divide sentence rule for Japanese. -->
+				<rule break="yes">
+					<beforebreak>([。\？\！\?\!]|[\.]{2,})</beforebreak>
+					<afterbreak></afterbreak>
+				</rule>
+
+			</languagerule>	
+		
+			<!-- Default language-related segmentation rules -->
+			<languagerule languagerulename="Default">
+				<!-- Additional rules which share the same component in every languages -->
+
+				<!-- Start sentence with 1a), [a], 1), b), 50), 155) - Break -->
+				<rule break="yes">
+					<beforebreak>(?m)^\s*(\p{Ps})?[A-Za-z\d]+(\p{Pe}|\.)\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- DOMINATE RULE -->
+				<!-- Start sentence with 1.2. - Break - add \p{Lu}\p{Ll} to <afterbreak> -->
+				<rule break="yes">
+					<beforebreak>(?m)^(\d+\.\d+\.\d+|\d+\.\d+)[\p{Pe}\.\u003E]?\s</beforebreak>
+					<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- Start sentence with <A.II>, <A.III>, <A.IV> - Break -->
+				<rule break="yes">
+					<beforebreak>(?m)^\s*\u003C[A-Z]\.[XVI]+\u003E\s</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- If FIG. is at the end of the sentence -->
+				<rule break="yes">
+					<beforebreak>(?i)(figures?|figs?)\.\s\d+\.\s?</beforebreak>
+					<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- PTDR -->
+
+				<!-- Informal sentence? -->
+				<!-- . with space and lowercase letter -->
+				<rule break="no">
+					<beforebreak>\.</beforebreak>
+					<afterbreak>\s+\p{Ll}</afterbreak>
+				</rule>
+
+				<!-- . with number and ignore character in [] -->
+				<rule break="no">
+					<beforebreak>\.</beforebreak>
+					<afterbreak>\s+\p{N}+[^\.\)\-]</afterbreak>
+				</rule>
+
+				<!-- . with number . -->
+				<rule break="no">
+					<beforebreak>\.\s+\p{N}+\.</beforebreak>
+					<afterbreak>\s</afterbreak>
+				</rule>
+
+				<!-- ... exception -->
+				<rule break="no">
+					<beforebreak>\.\.\.</beforebreak>
+					<afterbreak>\s+\P{Lu}</afterbreak>
+				</rule>
+
+				<!-- numbered headers break rule based on an idea by Jean-Christophe Helary -->
+				<!-- SRX file default is not multiline so ^ will not work - add (?m) -->
+				<!-- <rule break="yes">
+                    <beforebreak>(?m)^\s*\p{Nd}+[\p{Nd}\.\)\]]+</beforebreak>
+                    <afterbreak>\s+\p{Lu}</afterbreak>
+                </rule> -->
+
+				<!-- .?! break rule -->
+				<!-- <rule break="yes">
+                    <beforebreak>[\.\?\!]+</beforebreak>
+                    <afterbreak>\s</afterbreak>
+                </rule> -->
+
+				<!-- language_tools -->
+
+				<!-- PARAGRAPH SEPARATOR Unicode character -->
+				<rule break="yes">
+					<beforebreak>\u2029</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- For smooth interoperability with Anaphraseus translation plugin for OpenOffice.org -->
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>&lt;0\}</afterbreak>
+				</rule>
+
+				<!-- Anaphraseus segment start marker -->
+				<rule break="yes">
+					<beforebreak>\{0></beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Support srt files (Subtitle) -->
+				<rule break="yes">
+					<beforebreak>\d{2}:\d{2}:\d{2},\d{3}\r?\n</beforebreak>
+					<afterbreak/>
+				</rule>
+
+			</languagerule>
+
+			<languagerule languagerulename="GeneralImportant">
+
+				<!-- URLs without "www." -->
+				<rule break="no">
+					<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+					<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+				</rule>
+
+				<!-- Subdomains without "www." (e.g. foo.MyDomain.com) - add .ai and .trade and ? at \. <beforebreak> -->
+				<rule break="no">
+					<beforebreak>\b[A-Za-z0-9\-]+\.?</beforebreak>
+					<afterbreak>[A-Za-z0-9\-]+\.(?i)(ai|trade|com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+				</rule>
+
+				<!-- Don't split up URLs. -->
+				<rule break="no">
+					<beforebreak>\bwww\.</beforebreak>
+					<afterbreak>\w</afterbreak>
+				</rule>
+
+				<!-- Don't split up e-mail addresses. -->
+				<rule break="no">
+					<beforebreak>[\.\!\?]</beforebreak>
+					<afterbreak>\S*@</afterbreak>
+				</rule>
+
+			</languagerule>
+
+			<!-- Additional rules to handle HTML tag -->
+			<languagerule languagerulename="Patent">
+
+				<!-- Additional rules to handle specific cases -->
+
+				<rule break="no">
+					<beforebreak>(\u003C\s\!)</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Revendications|REVENDICATIONS -->
+				<rule break="yes">
+					<beforebreak>(Revendications|REVENDICATIONS)</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Références -->
+				<rule break="yes">
+					<beforebreak>\s?(Références)\s?</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>\s?(Références)\s?</afterbreak>
+				</rule>
+
+				<!-- Break #DESC# or #CLAIMS# #LANG# tag -->
+				<rule break="yes">
+					<beforebreak>\#(LANG|DESC_?([Ff][Rr]|[Dd][Ee])?|CLAIMS_?([Ff][Rr]|[Dd][Ee])?)\#\s?</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>\#(LANG|DESC_?([Ff][Rr]|[Dd][Ee])?|CLAIMS_?([Ff][Rr]|[Dd][Ee])?)\#</afterbreak>
+				</rule>
+
+				<!-- Break p num tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cp\snum\=("")\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break </claim-text> tag -->
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>\u003C\/claim-text\u003E</afterbreak>
+				</rule>
+
+				<!-- Break <claim-text> tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cclaim-text\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break </?claims?> tag -->
+				<rule break="yes">
+					<beforebreak>\u003C\/?claims?\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break </fulltext-document> tag -->
+				<rule break="yes">
+					<beforebreak>\u003C\/?fulltext-document\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break claim id-lang-status tag -->
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>\u003Cclaims\sid\=\"(.*)\"\slang\=\"(.*)\"\sstatus\=\"(.*)\"\u003E</afterbreak>
+				</rule>
+
+				<!-- Break claim id-num tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cclaim\sid\=\"(.*)\"\snum\=\"(.*)\"\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break p id num with blank tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cp\sid\=("")\snum\=("")\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break p num id tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cp\snum\=\"\d{4}\"\sid\=\"p\d{4}\"\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break p id num tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cp\sid\=\"p\d{4}\"\snum\=\"\d{4}\"\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break <p> tag -->
+				<rule break="yes">
+					<beforebreak>\u003Cp\u003E</beforebreak>
+					<afterbreak/>
+				</rule>
+
+				<!-- Break </p> tag -->
+				<rule break="yes">
+					<beforebreak/>
+					<afterbreak>\u003C\/p\u003E</afterbreak>
+				</rule>
+
+				<!-- Break [0000] at the start of line -->
+				<rule break="yes">
+					<beforebreak>(?m)^\[[\d]{4,}\]</beforebreak>
+					<afterbreak>\s</afterbreak>
+				</rule>
+
+			</languagerule>
+
+			<!-- Text files format-related rule -->
+
+			<languagerule languagerulename="Text">
+
+				<!-- Special handling for Text files to break on empty indented lines idea by Jean-Christophe Helary -->
+				<rule break="yes">
+					<beforebreak>\n</beforebreak>
+					<afterbreak> +</afterbreak>
+				</rule>
+
+			</languagerule>
+
+			<!-- HTML format-related rule -->
+			<languagerule languagerulename="HTML">
+
+				<!-- Special handling for <br> tag to segment on it - idea by Jean-Christophe Helary -->
+				<rule break="yes">
+					<beforebreak>\s?&lt;br\d+\/?&gt;</beforebreak>
+					<afterbreak>.</afterbreak>
+				</rule>
+
+			</languagerule>
+
+		</languagerules>
+
+		<maprules>
+			<languagemap languagepattern=".*" languagerulename="GeneralImportant"/>
+			<languagemap languagepattern="(JA|ja).*" languagerulename="Japanese"/>
+			<languagemap languagepattern=".*" languagerulename="Patent"/>
+			<languagemap languagepattern=".*" languagerulename="Default"/>
+			<languagemap languagepattern=".*" languagerulename="Text"/>
+			<languagemap languagepattern=".*" languagerulename="HTML"/>
+		</maprules>
+
+	</body>
+</srx>
